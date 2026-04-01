@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { InputBox } from './InputBox';
-import { SettingsPanel } from './SettingsPanel';
-import { OutputBox } from './OutputBox';
-import { ActionButton } from './ActionButton';
-import { initializeStorage, saveSettings, getSettings } from '../utils/storage';
-import { Toast } from './Toast';
-// Types are imported from utils but used for JSX - no need for 'type' keyword in .jsx files
+import React, { useState, useEffect } from "react";
+import { InputBox } from "./InputBox";
+import { SettingsPanel } from "./SettingsPanel";
+import { OutputBox } from "./OutputBox";
+import { ActionButton } from "./ActionButton";
+import { initializeStorage, saveSettings, getSettings } from "../utils/storage";
+import { Toast } from "./Toast";
+import type { Settings, GenerateRequest } from "../utils/types";
 
-type ToastType = 'success' | 'error' | 'info';
+type ToastType = "success" | "error" | "info";
 
 interface ToastMessage {
   id: string;
@@ -18,7 +18,7 @@ interface ToastMessage {
 export function App() {
   // State management
   const [settings, setSettings] = useState<Settings | null>(null);
-  const [inputText, setInputText] = useState('');
+  const [inputText, setInputText] = useState("");
   const [result, setResult] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -28,11 +28,11 @@ export function App() {
   useEffect(() => {
     const initialSettings = initializeStorage();
     setSettings(initialSettings);
-    setInputText(initialSettings.lastInput || '');
+    setInputText(initialSettings.lastInput || "");
   }, []);
 
   // Add toast notification
-  const showToast = (message: string, type: ToastType = 'info') => {
+  const showToast = (message: string, type: ToastType = "info") => {
     const id = Date.now().toString();
     setToasts((prev) => [...prev, { id, message, type }]);
     setTimeout(() => {
@@ -57,10 +57,10 @@ export function App() {
 
   // Handle clear input
   const handleClearInput = () => {
-    setInputText('');
+    setInputText("");
     setResult(null);
     setError(null);
-    saveSettings({ lastInput: '' });
+    saveSettings({ lastInput: "" });
   };
 
   // Handle generate
@@ -69,17 +69,17 @@ export function App() {
 
     // Validation
     if (!inputText.trim()) {
-      showToast('Please enter text to rewrite', 'error');
+      showToast("Please enter text to rewrite", "error");
       return;
     }
 
     if (inputText.trim().length < 10) {
-      showToast('Text must be at least 10 characters', 'error');
+      showToast("Text must be at least 10 characters", "error");
       return;
     }
 
     if (inputText.length > 5000) {
-      showToast('Text must not exceed 5000 characters', 'error');
+      showToast("Text must not exceed 5000 characters", "error");
       return;
     }
 
@@ -98,37 +98,46 @@ export function App() {
         customPrompt: settings.customPrompt || undefined,
       };
 
-      const response = await fetch('/api/generate', {
-        method: 'POST',
+      const response = await fetch("/api/generate", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(payload),
       });
 
-      console.log('API Response Status:', response.status);
+      console.log("API Response Status:", response.status);
 
       if (!response.ok) {
-        console.error('API Error Response:', response.status, response.statusText);
-        const errorData = await response.json().catch(() => ({ error: 'Failed to parse error response' }));
-        console.error('Error Data:', errorData);
-        throw new Error(errorData.error || `HTTP ${response.status}: Failed to generate text`);
+        console.error(
+          "API Error Response:",
+          response.status,
+          response.statusText,
+        );
+        const errorData = await response
+          .json()
+          .catch(() => ({ error: "Failed to parse error response" }));
+        console.error("Error Data:", errorData);
+        throw new Error(
+          errorData.error || `HTTP ${response.status}: Failed to generate text`,
+        );
       }
 
       const data = await response.json();
-      console.log('API Success Response:', data);
+      console.log("API Success Response:", data);
 
       if (data.success && data.result) {
         setResult(data.result);
-        showToast('Text rewritten successfully!', 'success');
+        showToast("Text rewritten successfully!", "success");
       } else {
-        throw new Error(data.error || 'Unknown error occurred');
+        throw new Error(data.error || "Unknown error occurred");
       }
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'An error occurred';
-      console.error('Generation error details:', err);
+      const errorMessage =
+        err instanceof Error ? err.message : "An error occurred";
+      console.error("Generation error details:", err);
       setError(errorMessage);
-      showToast(errorMessage, 'error');
+      showToast(errorMessage, "error");
     } finally {
       setLoading(false);
     }
@@ -137,15 +146,19 @@ export function App() {
   // Don't render until settings are initialized
   if (!settings) {
     return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-center space-y-nb-md">
-          <div className="inline-block">
-            <div
-              className="w-10 h-10 border-nb-thick border-nb-black border-t-nb-accent
-              rounded-full animate-spin"
-            />
-          </div>
-          <p className="text-nb-lg nb-bold-text">Loading...</p>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "center", minHeight: "50vh" }}>
+        <div style={{ textAlign: "center" }}>
+          <div
+            style={{
+              width: "36px", height: "36px",
+              border: "3px solid #e5e7eb",
+              borderTopColor: "#1d4ed8",
+              borderRadius: "50%",
+              margin: "0 auto 0.875rem",
+            }}
+            className="animate-spin"
+          />
+          <p style={{ fontFamily: "'Space Mono', monospace", fontSize: "0.8rem", fontWeight: 700, color: "#6b7280" }}>Loading...</p>
         </div>
       </div>
     );
@@ -153,38 +166,34 @@ export function App() {
 
   return (
     <>
-      <div className="space-y-nb-md pb-32 md:pb-0 max-w-3xl mx-auto">
-        {/* Input Section */}
-        <section>
+      {/* App layout */}
+      <div style={{ display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+
+        {/* Input */}
+        <div style={{
+          background: "#fff",
+          border: "2px solid #0d0d0d",
+          borderRadius: "8px",
+          padding: "1.5rem",
+          boxShadow: "4px 4px 0px #0d0d0d",
+        }}>
           <InputBox
             value={inputText}
             onChange={handleInputChange}
             onClear={handleClearInput}
             disabled={loading}
           />
-        </section>
+        </div>
 
-        {/* Settings Section */}
-        <section>
-          <SettingsPanel
-            settings={settings}
-            onSettingsChange={handleSettingsChange}
-            disabled={loading}
-          />
-        </section>
+        {/* Settings */}
+        <SettingsPanel
+          settings={settings}
+          onSettingsChange={handleSettingsChange}
+          disabled={loading}
+        />
 
-        {/* Output Section */}
-        <section>
-          <OutputBox
-            result={result}
-            loading={loading}
-            error={error}
-            onCopy={() => showToast('Copied to clipboard!', 'success')}
-          />
-        </section>
-
-        {/* Desktop Action Button */}
-        <div className="hidden md:flex justify-end pt-nb-lg">
+        {/* Generate button */}
+        <div style={{ display: "flex", justifyContent: "flex-end" }}>
           <ActionButton
             onClick={handleGenerate}
             loading={loading}
@@ -192,20 +201,27 @@ export function App() {
             label="Generate"
           />
         </div>
-      </div>
 
-      {/* Mobile Floating Button */}
-      <div className="md:hidden">
-        <ActionButton
-          onClick={handleGenerate}
-          loading={loading}
-          disabled={!inputText.trim() || loading}
-          label="Generate"
-        />
+        {/* Output */}
+        <div style={{
+          background: "#fff",
+          border: "2px solid #0d0d0d",
+          borderRadius: "8px",
+          padding: "1.5rem",
+          boxShadow: result ? "4px 4px 0px #1d4ed8" : "4px 4px 0px #0d0d0d",
+          transition: "box-shadow 0.3s",
+        }}>
+          <OutputBox
+            result={result}
+            loading={loading}
+            error={error}
+            onCopy={() => showToast("Copied to clipboard!", "success")}
+          />
+        </div>
       </div>
 
       {/* Toast Container */}
-      <div className="fixed bottom-0 right-0 space-y-nb-sm p-nb-md pointer-events-none z-50">
+      <div style={{ position: "fixed", bottom: "1.5rem", right: "1.5rem", display: "flex", flexDirection: "column", gap: "0.5rem", zIndex: 1000, pointerEvents: "none" }}>
         {toasts.map((toast) => (
           <Toast
             key={toast.id}
