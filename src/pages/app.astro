@@ -1,0 +1,60 @@
+---
+import Header from '../components/Header.astro';
+import { App } from '../components/App';
+import { ThemeSwitcher } from '../components/ThemeSwitcher';
+
+// Import global styles
+import '../styles/global.css';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="LinguAI Studio - AI-powered text rewriting PWA" />
+    <meta name="theme-color" content="#ff6b35" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="generator" content={Astro.generator} />
+    <title>LinguAI Studio - AI Text Rewriter</title>
+  </head>
+  <body class="bg-nb-white text-nb-black dark:bg-nb-dark-bg dark:text-nb-dark-text">
+    <!-- Theme Switcher -->
+    <div class="fixed top-4 right-4 z-50">
+      <ThemeSwitcher client:load />
+    </div>
+
+    <!-- Navigation Header -->
+    <header class="nb-border border-b-nb-thick bg-nb-white dark:bg-nb-dark-surface px-nb-lg py-nb-md sticky top-0 z-40">
+      <div class="max-w-5xl mx-auto flex items-center justify-between">
+        <div class="flex items-center gap-nb-md">
+          <a href="/" class="hover:text-nb-accent transition-colors">
+            <h1 class="text-nb-4xl font-black">LinguAI Studio</h1>
+          </a>
+          <span class="text-nb-sm px-nb-sm py-1 bg-nb-accent text-nb-white font-black">PWA</span>
+        </div>
+      </div>
+    </header>
+
+    <main class="max-w-4xl mx-auto px-nb-md py-nb-lg">
+      <App client:load />
+    </main>
+
+    <footer class="bg-nb-white dark:bg-nb-dark-bg border-t-nb-thick border-nb-black dark:border-nb-dark-text px-nb-lg py-nb-md mt-nb-2xl">
+      <div class="max-w-5xl mx-auto text-center text-nb-sm dark:text-gray-400">
+        <p><a href="/" class="hover:text-nb-accent transition-colors">← Back to Home</a></p>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<script>
+  // Service Worker registration for PWA
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/sw.js').catch((error) => {
+      console.log('Service Worker registration failed:', error);
+    });
+  }
+</script>

@@ -1,0 +1,36 @@
+---
+// Header component - Astro static component
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+}
+
+const { title = 'LinguAI Studio' } = Astro.props;
+---
+
+<header class="nb-border border-b-nb-thick bg-nb-white dark:bg-nb-dark-surface dark:border-nb-dark-text px-nb-lg py-nb-md">
+  <div class="max-w-5xl mx-auto flex items-center justify-between">
+    <div class="flex items-center gap-nb-md">
+      <h1 class="text-nb-4xl nb-bold-text dark:text-nb-dark-text">{title}</h1>
+      <span
+        class="text-nb-sm px-nb-sm py-1 bg-nb-accent text-nb-white font-black"
+      >
+        PWA
+      </span>
+    </div>
+    <div class="text-nb-sm text-nb-grey dark:text-gray-400">
+      <span id="pwa-indicator" class="hidden">✓ Installable</span>
+    </div>
+  </div>
+</header>
+
+<script>
+  // Detect if app is PWA installable
+  window.addEventListener('beforeinstallprompt', () => {
+    const indicator = document.getElementById('pwa-indicator');
+    if (indicator) {
+      indicator.classList.remove('hidden');
+    }
+  });
+</script>

@@ -1,0 +1,266 @@
+---
+import Header from '../components/Header.astro';
+import { ThemeSwitcher } from '../components/ThemeSwitcher';
+import '../styles/global.css';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="LinguAI Studio - Professional AI-powered text rewriting with multiple styles and languages" />
+    <meta name="theme-color" content="#ff6b35" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="generator" content={Astro.generator} />
+    <title>LinguAI Studio - AI Text Rewriter</title>
+  </head>
+  <body class="bg-nb-white text-nb-black dark:bg-nb-dark-bg dark:text-nb-dark-text">
+    <!-- Theme Switcher -->
+    <div class="fixed top-4 right-4 z-50">
+      <ThemeSwitcher client:load />
+    </div>
+
+    <!-- Navigation Header -->
+    <header class="nb-border border-b-nb-thick bg-nb-white dark:bg-nb-dark-surface px-nb-lg py-nb-md sticky top-0 z-40">
+      <div class="max-w-6xl mx-auto flex items-center justify-between">
+        <div class="flex items-center gap-nb-md">
+          <h1 class="text-nb-4xl font-black tracking-nb-tight">LinguAI Studio</h1>
+          <span class="text-nb-sm px-nb-sm py-1 bg-nb-accent text-nb-white font-black">PWA</span>
+        </div>
+        <a 
+          href="/app" 
+          class="btn-primary text-nb-base px-nb-lg py-nb-md bg-nb-accent text-nb-white font-black border-nb-thick border-nb-accent cursor-pointer transition-all duration-200 hover:bg-nb-black hover:border-nb-black dark:hover:bg-nb-accent dark:hover:text-nb-dark-bg"
+        >
+          Open App →
+        </a>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="bg-nb-white dark:bg-nb-dark-bg px-nb-lg py-nb-2xl">
+      <div class="max-w-6xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-nb-2xl items-center">
+          <!-- Hero Text -->
+          <div>
+            <h2 class="text-nb-5xl font-black tracking-nb-tight mb-nb-lg leading-tight">
+              Transform Your Text With <span class="text-nb-accent">AI Power</span>
+            </h2>
+            <p class="text-nb-xl mb-nb-lg max-w-2xl leading-relaxed dark:text-gray-300">
+              LinguAI Studio is a professional-grade AI text rewriting application that transforms your content instantly. Choose your tone, style, and language to create perfectly tailored text for any purpose.
+            </p>
+            <div class="flex gap-nb-md flex-wrap">
+              <a 
+                href="/app" 
+                class="btn-primary text-nb-lg bg-nb-accent text-nb-white border-nb-thick border-nb-accent hover:bg-nb-black hover:border-nb-black dark:hover:bg-nb-accent dark:hover:text-nb-dark-bg"
+              >
+                Get Started
+              </a>
+              <a 
+                href="#features" 
+                class="btn-secondary text-nb-lg bg-nb-white text-nb-black border-nb-thick border-nb-black dark:bg-nb-dark-surface dark:text-nb-dark-text dark:border-nb-dark-text hover:bg-nb-black hover:text-nb-white dark:hover:bg-nb-accent dark:hover:text-nb-dark-bg"
+              >
+                Learn More
+              </a>
+            </div>
+          </div>
+
+          <!-- Hero Graphic -->
+          <div class="hidden lg:flex items-center justify-center">
+            <div class="text-center">
+              <div class="inline-block p-nb-2xl border-nb-thick border-nb-accent bg-nb-white dark:bg-nb-dark-surface mb-nb-lg">
+                <p class="text-nb-2xl font-black text-nb-accent">■ AI TEXT</p>
+                <p class="text-nb-2xl font-black text-nb-accent">REWRITER</p>
+              </div>
+              <div class="text-nb-sm font-mono dark:text-gray-400">
+                Professional. Fast. Intelligent.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="bg-nb-white dark:bg-nb-dark-bg border-t-nb-thick border-nb-black dark:border-nb-dark-text px-nb-lg py-nb-2xl">
+      <div class="max-w-6xl mx-auto">
+        <h3 class="text-nb-4xl font-black tracking-nb-tight mb-nb-2xl text-center">
+          Powerful Features
+        </h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-nb-lg">
+          <!-- Feature Card 1 -->
+          <div class="p-nb-lg nb-border border-nb-thick hover:bg-nb-accent hover:text-nb-white dark:hover:bg-nb-accent dark:hover:text-nb-dark-bg transition-all duration-200">
+            <div class="text-nb-4xl mb-nb-md font-black">◆</div>
+            <h4 class="text-nb-2xl font-black tracking-nb-tight mb-nb-sm">Multiple Tones</h4>
+            <p class="text-nb-base leading-relaxed">
+              Professional, casual, formal, or creative. Choose the perfect tone for your audience.
+            </p>
+          </div>
+
+          <!-- Feature Card 2 -->
+          <div class="p-nb-lg nb-border border-nb-thick hover:bg-nb-secondary hover:text-nb-white dark:hover:bg-nb-secondary dark:hover:text-nb-dark-bg transition-all duration-200">
+            <div class="text-nb-4xl mb-nb-md font-black">⬚</div>
+            <h4 class="text-nb-2xl font-black tracking-nb-tight mb-nb-sm">Writing Styles</h4>
+            <p class="text-nb-base leading-relaxed">
+              Concise, elaborate, or balanced. Adapt your content length to fit your needs perfectly.
+            </p>
+          </div>
+
+          <!-- Feature Card 3 -->
+          <div class="p-nb-lg nb-border border-nb-thick hover:border-nb-accent dark:hover:border-nb-accent transition-all duration-200">
+            <div class="text-nb-4xl mb-nb-md font-black">◇</div>
+            <h4 class="text-nb-2xl font-black tracking-nb-tight mb-nb-sm">Multi-Language</h4>
+            <p class="text-nb-base leading-relaxed">
+              English, Indonesian, Spanish, and more. Break language barriers effortlessly.
+            </p>
+          </div>
+
+          <!-- Feature Card 4 -->
+          <div class="p-nb-lg nb-border border-nb-thick hover:bg-nb-accent hover:text-nb-white dark:hover:bg-nb-accent dark:hover:text-nb-dark-bg transition-all duration-200">
+            <div class="text-nb-4xl mb-nb-md font-black">▶</div>
+            <h4 class="text-nb-2xl font-black tracking-nb-tight mb-nb-sm">Lightning Fast</h4>
+            <p class="text-nb-base leading-relaxed">
+              Get results instantly. Powered by state-of-the-art AI models for real-time transformation.
+            </p>
+          </div>
+
+          <!-- Feature Card 5 -->
+          <div class="p-nb-lg nb-border border-nb-thick hover:border-nb-secondary dark:hover:border-nb-secondary transition-all duration-200">
+            <div class="text-nb-4xl mb-nb-md font-black">⊞</div>
+            <h4 class="text-nb-2xl font-black tracking-nb-tight mb-nb-sm">Progressive Web App</h4>
+            <p class="text-nb-base leading-relaxed">
+              Install on any device. Works offline. Access your texts anytime, anywhere.
+            </p>
+          </div>
+
+          <!-- Feature Card 6 -->
+          <div class="p-nb-lg nb-border border-nb-thick hover:bg-nb-secondary hover:text-nb-white dark:hover:bg-nb-secondary dark:hover:text-nb-dark-bg transition-all duration-200">
+            <div class="text-nb-4xl mb-nb-md font-black">■</div>
+            <h4 class="text-nb-2xl font-black tracking-nb-tight mb-nb-sm">Private & Secure</h4>
+            <p class="text-nb-base leading-relaxed">
+              Your data stays on your device. No tracking. No ads. Complete privacy guaranteed.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="bg-nb-white dark:bg-nb-dark-bg border-t-nb-thick border-nb-black dark:border-nb-dark-text px-nb-lg py-nb-2xl">
+      <div class="max-w-6xl mx-auto">
+        <h3 class="text-nb-4xl font-black tracking-nb-tight mb-nb-2xl text-center">
+          How It Works
+        </h3>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-nb-md">
+          <!-- Step 1 -->
+          <div class="text-center">
+            <div class="inline-block w-16 h-16 border-nb-thick border-nb-black dark:border-nb-dark-text bg-nb-accent text-nb-white font-black text-nb-2xl flex items-center justify-center mb-nb-md">
+              1
+            </div>
+            <h4 class="text-nb-xl font-black mb-nb-sm">Enter Text</h4>
+            <p class="text-nb-base dark:text-gray-300">Paste or type your content into the editor.</p>
+          </div>
+
+          <!-- Arrow -->
+          <div class="flex items-center justify-center text-nb-3xl font-black">▶</div>
+
+          <!-- Step 2 -->
+          <div class="text-center">
+            <div class="inline-block w-16 h-16 border-nb-thick border-nb-secondary dark:border-nb-secondary bg-nb-secondary text-nb-white font-black text-nb-2xl flex items-center justify-center mb-nb-md">
+              2
+            </div>
+            <h4 class="text-nb-xl font-black mb-nb-sm">Choose Settings</h4>
+            <p class="text-nb-base dark:text-gray-300">Pick tone, style, and language preferences.</p>
+          </div>
+
+          <!-- Arrow -->
+          <div class="flex items-center justify-center text-nb-3xl font-black">▶</div>
+
+          <!-- Step 3 -->
+          <div class="text-center">
+            <div class="inline-block w-16 h-16 border-nb-thick border-nb-accent dark:border-nb-accent bg-nb-accent text-nb-white font-black text-nb-2xl flex items-center justify-center mb-nb-md">
+              3
+            </div>
+            <h4 class="text-nb-xl font-black mb-nb-sm">Generate</h4>
+            <p class="text-nb-base dark:text-gray-300">Click Generate for instant AI transformation.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AI Providers Section -->
+    <section class="bg-nb-white dark:bg-nb-dark-bg border-t-nb-thick border-nb-black dark:border-nb-dark-text px-nb-lg py-nb-2xl">
+      <div class="max-w-6xl mx-auto">
+        <h3 class="text-nb-4xl font-black tracking-nb-tight mb-nb-2xl text-center">
+          Powered By Advanced AI
+        </h3>
+
+
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="bg-nb-accent text-nb-white px-nb-lg py-nb-2xl">
+      <div class="max-w-4xl mx-auto text-center">
+        <h3 class="text-nb-4xl font-black tracking-nb-tight mb-nb-lg">
+          Ready to Transform Your Text?
+        </h3>
+        <p class="text-nb-lg mb-nb-2xl">
+          Start using LinguAI Studio today. It's free, fast, and requires no sign-up.
+        </p>
+        <a 
+          href="/app" 
+          class="inline-block px-nb-2xl py-nb-lg bg-nb-white text-nb-accent font-black border-nb-thick border-nb-white hover:bg-nb-black hover:text-nb-white hover:border-nb-black transition-all duration-200 text-nb-lg"
+        >
+          Launch App Now →
+        </a>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-nb-white dark:bg-nb-dark-bg border-t-nb-thick border-nb-black dark:border-nb-dark-text px-nb-lg py-nb-lg">
+      <div class="max-w-6xl mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-nb-lg mb-nb-lg">
+          <div>
+            <h4 class="text-nb-2xl font-black mb-nb-md">LinguAI Studio</h4>
+            <p class="text-nb-base dark:text-gray-400">
+              Professional AI-powered text rewriting for everyone.
+            </p>
+          </div>
+          <div>
+            <h4 class="text-nb-lg font-black mb-nb-md">Features</h4>
+            <ul class="text-nb-sm space-y-nb-sm dark:text-gray-400">
+              <li><a href="/app" class="hover:text-nb-accent transition-colors">App</a></li>
+              <li><a href="#features" class="hover:text-nb-accent transition-colors">Features</a></li>
+              <li>Multiple AI Models</li>
+            </ul>
+          </div>
+          <div>
+            <h4 class="text-nb-lg font-black mb-nb-md">Info</h4>
+            <ul class="text-nb-sm space-y-nb-sm dark:text-gray-400">
+              <li>PWA Enabled</li>
+              <li>Privacy First</li>
+              <li>Open Source Ready</li>
+            </ul>
+          </div>
+        </div>
+        <div class="border-t-nb-thick border-nb-black dark:border-nb-dark-text pt-nb-lg text-center text-nb-sm dark:text-gray-400">
+          <p>© 2026 LinguAI Studio. Built with ■ and AI.</p>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      // Service Worker registration for PWA
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/sw.js').catch((error) => {
+          console.log('Service Worker registration failed:', error);
+        });
+      }
+    </script>
+  </body>
+</html>
