@@ -4,6 +4,9 @@
  * GET /api/health
  */
 
+// Ensure .env is loaded (critical for development mode)
+import "dotenv/config";
+
 import type { APIRoute } from "astro";
 import { OXLO_MODEL } from "../../utils/constants";
 
@@ -28,7 +31,9 @@ export const GET: APIRoute = async () => {
   // Check for critical issues
   if (!process.env.OXLO_API_KEY) {
     checks.status = "unhealthy";
-    checks.issues.push("CRITICAL: OXLO_API_KEY environment variable is not set");
+    checks.issues.push(
+      "CRITICAL: OXLO_API_KEY environment variable is not set",
+    );
   }
 
   if (!process.env.OXLO_API_KEY?.trim()) {

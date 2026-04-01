@@ -3,6 +3,9 @@
  * Endpoint: POST /api/generate
  */
 
+// Ensure .env is loaded (critical for development mode)
+import "dotenv/config";
+
 import type { APIRoute } from "astro";
 import { OpenAI } from "openai";
 import {
@@ -290,8 +293,7 @@ export const POST: APIRoute = async ({ request }) => {
       },
     );
   } catch (error) {
-    const errorObj =
-      error instanceof Error ? error : new Error(String(error));
+    const errorObj = error instanceof Error ? error : new Error(String(error));
     const errorMessage = errorObj.message || "Unknown error";
 
     console.error("[API] Unhandled error:", {
