@@ -113,5 +113,3 @@ Agent harus mengirimkan prompt ke OpenRouter dengan struktur berikut:
 
 ---
 
-**Saran Langkah Berikutnya:**
-Apakah kamu ingin saya mulai membuatkan **boilerplate `generate.ts`** untuk koneksi ke OpenRouter, atau langsung ke **struktur komponen React** untuk *Settings Panel*?
