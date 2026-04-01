@@ -1,6 +1,7 @@
 {
   "buildCommand": "npm run build",
   "devCommand": "npm run dev",
-  "installCommand": "npm install",
-  "framework": "astro"
+  "installCommand": "npm install --legacy-peer-deps",
+  "framework": "astro",
+  "nodejs": "22.x"
 }

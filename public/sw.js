@@ -4,9 +4,8 @@
  */
 
 const CACHE_NAME = "linguai-v2";
+// Only cache truly static assets (NOT SSR pages like /app or /)
 const CACHE_URLS = [
-  "/",
-  "/app",
   "/manifest.json",
   "/favicon.svg",
   "/favicon.ico",
@@ -91,9 +90,12 @@ self.addEventListener("fetch", (event) => {
           return response;
         })
         .catch(() => {
-          // For navigation requests, serve the cached home page
+          // For navigation requests when offline, return a network error response
           if (request.mode === "navigate") {
-            return caches.match("/") || caches.match("/app");
+            return new Response("You are offline. Please check your connection.", {
+              status: 503,
+              headers: { "Content-Type": "text/plain" },
+            });
           }
           return new Response("Resource unavailable", {
             status: 503,

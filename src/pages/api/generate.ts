@@ -109,11 +109,8 @@ async function callAI(
   const apiKey = process.env.OXLO_API_KEY?.trim();
 
   if (!apiKey) {
-    const errorMsg =
-      "Server configuration error: Missing OXLO API key. Please contact support.";
-    console.error("CRITICAL:", errorMsg);
-    console.error("Environment variables available:", Object.keys(process.env));
-    return { error: errorMsg };
+    console.error("CRITICAL: OXLO_API_KEY is not configured in environment variables.");
+    return { error: "Server configuration error. Please contact support." };
   }
 
   try {
@@ -303,7 +300,7 @@ export const POST: APIRoute = async ({ request }) => {
     return new Response(
       JSON.stringify({
         success: false,
-        error: `Internal server error: ${errorMessage}`,
+        error: "An unexpected error occurred. Please try again.",
       }),
       {
         status: 500,
