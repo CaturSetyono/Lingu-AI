@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 interface OutputBoxProps {
   result: string | null;
@@ -26,66 +26,139 @@ export function OutputBox({
   };
 
   return (
-    <div className="space-y-nb-md">
-      <div className="flex items-center justify-between">
-        <h2 className="text-nb-base nb-bold-text dark:text-nb-dark-text">Result</h2>
+    <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <label
+          style={{
+            fontFamily: "'Space Mono', monospace",
+            fontSize: "0.72rem",
+            fontWeight: 700,
+            textTransform: "uppercase",
+            letterSpacing: "0.06em",
+            color: "#1d4ed8",
+          }}
+        >
+          AI Output
+        </label>
         {result && (
           <button
             onClick={handleCopy}
-            className={`text-nb-xs font-black px-nb-sm py-nb-xs
-              transition-all duration-200 ${
-                copied
-                  ? 'bg-nb-accent text-nb-white dark:text-nb-dark-bg border-nb-thick border-nb-accent'
-                  : 'bg-nb-white dark:bg-nb-dark-surface text-nb-black dark:text-nb-dark-text border-nb-thick border-nb-black dark:border-nb-dark-text hover:bg-nb-grey dark:hover:bg-nb-accent hover:text-nb-white dark:hover:text-nb-dark-bg'
-              }`}
+            style={{
+              fontFamily: "'Space Grotesk', sans-serif",
+              fontSize: "0.72rem",
+              fontWeight: 700,
+              padding: "0.25rem 0.75rem",
+              borderRadius: "4px",
+              border: "2px solid #0d0d0d",
+              cursor: "pointer",
+              transition: "all 0.15s",
+              background: copied ? "#1d4ed8" : "#fff",
+              color: copied ? "#fff" : "#0d0d0d",
+              boxShadow: copied ? "none" : "2px 2px 0px #0d0d0d",
+            }}
             title="Copy to clipboard"
           >
-            {copied ? '✓ Copied' : 'Copy'}
+            {copied ? (
+              <span style={{ display: "flex", alignItems: "center", gap: "0.3rem" }}>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                Copied!
+              </span>
+            ) : (
+              <span style={{ display: "flex", alignItems: "center", gap: "0.3rem" }}>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                Copy
+              </span>
+            )}
           </button>
         )}
       </div>
 
-      <div className="relative min-h-[180px] border-nb-thick border-nb-black dark:border-nb-dark-text p-nb-md bg-nb-white dark:bg-nb-dark-surface">
+      <div
+        style={{
+          minHeight: "180px",
+          border: "2px solid",
+          borderColor: result ? "#1d4ed8" : "#0d0d0d",
+          borderRadius: "6px",
+          padding: "1rem",
+          background: result ? "#eff6ff" : "#f9fafb",
+          position: "relative",
+          display: "flex",
+          alignItems: loading || error || !result ? "center" : "flex-start",
+          justifyContent: loading || error || !result ? "center" : "flex-start",
+          boxShadow: result ? "4px 4px 0px #1d4ed8" : "none",
+          transition: "all 0.3s",
+        }}
+      >
         {loading && (
-          <div className="flex items-center justify-center h-full">
-            <div className="space-y-nb-md text-center">
-              <div className="inline-block">
-                <div
-                  className="w-8 h-8 border-nb-thick border-nb-black border-t-nb-accent
-                  rounded-full animate-spin"
-                />
-              </div>
-              <p className="text-nb-sm nb-bold-text">Generating...</p>
-            </div>
+          <div style={{ textAlign: "center" }}>
+            <div
+              style={{
+                width: "32px",
+                height: "32px",
+                border: "3px solid #e5e7eb",
+                borderTopColor: "#1d4ed8",
+                borderRadius: "50%",
+                margin: "0 auto 0.75rem",
+              }}
+              className="animate-spin"
+            />
+            <p style={{
+              fontFamily: "'Space Mono', monospace",
+              fontSize: "0.8rem",
+              fontWeight: 700,
+              color: "#6b7280",
+            }}>
+              Generating...
+            </p>
           </div>
         )}
 
         {error && !loading && (
-          <div className="h-full flex items-center justify-center">
-            <div
-              className="bg-nb-grey dark:bg-nb-accent text-nb-white dark:text-nb-dark-bg p-nb-md border-nb-thick border-nb-accent dark:border-nb-accent
-              space-y-nb-sm"
-            >
-              <p className="text-nb-sm nb-bold-text">Error</p>
-              <p className="text-nb-sm">{error}</p>
-            </div>
+          <div
+            style={{
+              background: "#fee2e2",
+              border: "2px solid #ef4444",
+              borderRadius: "6px",
+              padding: "1rem",
+              boxShadow: "3px 3px 0px #ef4444",
+              width: "100%",
+            }}
+          >
+            <p style={{
+              fontFamily: "'Space Mono', monospace",
+              fontSize: "0.72rem",
+              fontWeight: 700,
+              textTransform: "uppercase",
+              color: "#dc2626",
+              marginBottom: "0.375rem",
+            }}>Error</p>
+            <p style={{ fontSize: "0.875rem", color: "#b91c1c" }}>{error}</p>
           </div>
         )}
 
         {result && !loading && !error && (
-          <div className="prose prose-sm max-w-none dark:prose-invert">
-            <p className="text-nb-base font-mono whitespace-pre-wrap break-words leading-relaxed text-nb-black dark:text-nb-dark-text">
-              {result}
-            </p>
-          </div>
+          <p style={{
+            fontFamily: "'Space Mono', monospace",
+            fontSize: "0.9rem",
+            lineHeight: 1.75,
+            color: "#0d0d0d",
+            whiteSpace: "pre-wrap",
+            wordBreak: "break-word",
+          }}>
+            {result}
+          </p>
         )}
 
         {!loading && !error && !result && (
-          <div className="h-full flex items-center justify-center">
-            <p className="text-nb-sm text-nb-grey nb-bold-text">
-              Your rewritten text will appear here
-            </p>
-          </div>
+          <p style={{
+            fontFamily: "'Space Mono', monospace",
+            fontSize: "0.8rem",
+            color: "#9ca3af",
+            fontWeight: 700,
+            letterSpacing: "0.03em",
+          }}>
+            Your rewritten text will appear here
+          </p>
         )}
       </div>
     </div>

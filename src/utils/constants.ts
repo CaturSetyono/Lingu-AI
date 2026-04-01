@@ -23,8 +23,40 @@ export const STYLE_OPTIONS: { label: string; value: StyleOption }[] = [
 ];
 
 export const LANGUAGE_OPTIONS: { label: string; value: LanguageOption }[] = [
+  // ── Asian ──────────────────────────────
   { label: "Indonesian", value: "id" },
   { label: "English", value: "en" },
+  { label: "Chinese (Simplified)", value: "zh" },
+  { label: "Chinese (Traditional)", value: "zh-tw" },
+  { label: "Japanese", value: "ja" },
+  { label: "Korean", value: "ko" },
+  { label: "Vietnamese", value: "vi" },
+  { label: "Thai", value: "th" },
+  { label: "Malay", value: "ms" },
+  // ── European ───────────────────────────
+  { label: "Spanish", value: "es" },
+  { label: "French", value: "fr" },
+  { label: "German", value: "de" },
+  { label: "Italian", value: "it" },
+  { label: "Portuguese", value: "pt" },
+  { label: "Russian", value: "ru" },
+  { label: "Dutch", value: "nl" },
+  { label: "Polish", value: "pl" },
+  { label: "Turkish", value: "tr" },
+  { label: "Ukrainian", value: "uk" },
+  { label: "Swedish", value: "sv" },
+  { label: "Danish", value: "da" },
+  { label: "Norwegian", value: "no" },
+  { label: "Finnish", value: "fi" },
+  { label: "Czech", value: "cs" },
+  { label: "Romanian", value: "ro" },
+  { label: "Hungarian", value: "hu" },
+  // ── Middle East & South Asia ───────────
+  { label: "Arabic", value: "ar" },
+  { label: "Hebrew", value: "he" },
+  { label: "Persian (Farsi)", value: "fa" },
+  { label: "Hindi", value: "hi" },
+  { label: "Bengali", value: "bn" },
 ];
 
 export const LENGTH_OPTIONS: { label: string; value: LengthOption }[] = [

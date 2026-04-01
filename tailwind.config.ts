@@ -3,20 +3,24 @@ import defaultTheme from "tailwindcss/defaultTheme";
 
 export default {
   content: ["./src/**/*.{astro,html,js,jsx,ts,tsx}"],
-  darkMode: 'class',
+  darkMode: "class",
   theme: {
     extend: {
       colors: {
-        // Neo-Brutalism color scheme
-        "nb-black": "#000000",
-        "nb-white": "#ffffff",
-        "nb-grey": "#1a1a1a",
-        "nb-accent": "#ff6b35", // Bold orange/red accent
-        "nb-secondary": "#004e89", // Bold blue
+        // Modern Neobrutalism - Calm Blue Palette
+        // Primary Colors
+        "nb-primary": "#1E3A8A", // Deep Blue - main, strong & dominant
+        "nb-bright": "#3B82F6", // Bright Blue - highlight, main buttons
+        "nb-light": "#60A5FA", // Light Blue - secondary accent
+        // Neutral Colors
+        "nb-white": "#FFFFFF", // Background utama
+        "nb-soft-gray": "#F3F4F6", // Card background
+        "nb-medium-gray": "#9CA3AF", // Text secondary
+        "nb-dark": "#111827", // Text utama / Dark gray
         // Dark mode colors
-        "nb-dark-bg": "#0a0a0a",
-        "nb-dark-surface": "#1a1a1a",
-        "nb-dark-text": "#f5f5f5",
+        "nb-dark-bg": "#0F172A", // Dark background (deep indigo)
+        "nb-dark-surface": "#1E293B", // Dark card surface (deeper slate)
+        "nb-dark-text": "#F1F5F9", // Light text untuk dark mode
       },
       fontFamily: {
         sans: ["Inter", ...defaultTheme.fontFamily.sans],
@@ -52,8 +56,9 @@ export default {
         "nb-extra": "6px",
       },
       borderRadius: {
-        nb: "0px", // No rounding - raw/sharp edges for brutalism
-        "nb-sm": "2px",
+        nb: "12px", // Medium-large rounded corners (neobrutalism playful)
+        "nb-sm": "6px", // Small rounded
+        "nb-lg": "20px", // Large rounded corners for cards
       },
       letterSpacing: {
         "nb-tight": "-0.02em",

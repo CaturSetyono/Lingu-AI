@@ -1,28 +1,24 @@
-import React from 'react';
+import React from "react";
 
 interface ToastProps {
   message: string;
-  type?: 'success' | 'error' | 'info';
+  type?: "success" | "error" | "info";
   onClose?: () => void;
 }
 
-export function Toast({
-  message,
-  type = 'info',
-  onClose,
-}: ToastProps) {
+export function Toast({ message, type = "info", onClose }: ToastProps) {
   return (
     <div
       className={`
-        px-nb-lg py-nb-md border-nb-thick font-black text-nb-sm
-        pointer-events-auto shadow-xl animation-slideUp
+        px-nb-lg py-nb-md border-nb-regular font-black text-nb-sm
+        pointer-events-auto shadow-sm animation-slideUp rounded-nb
         max-w-sm
         ${
-          type === 'success'
-            ? 'bg-nb-black dark:bg-nb-accent text-nb-white dark:text-nb-dark-bg border-nb-accent dark:border-nb-accent'
-            : type === 'error'
-              ? 'bg-nb-grey dark:bg-nb-accent text-nb-white dark:text-nb-dark-bg border-nb-accent dark:border-nb-accent'
-              : 'bg-nb-black dark:bg-nb-dark-surface text-nb-white dark:text-nb-dark-text border-nb-secondary dark:border-nb-dark-text'
+          type === "success"
+            ? "bg-nb-bright dark:bg-nb-bright text-nb-white dark:text-nb-white border-nb-bright dark:border-nb-bright"
+            : type === "error"
+              ? "bg-nb-bright dark:bg-nb-bright text-nb-white dark:text-nb-white border-nb-bright dark:border-nb-bright"
+              : "bg-nb-primary dark:bg-nb-primary text-nb-white dark:text-nb-white border-nb-primary dark:border-nb-primary"
         }
       `}
       role="alert"

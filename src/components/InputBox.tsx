@@ -1,5 +1,5 @@
-import React, { useRef, useEffect } from 'react';
-import { MAX_INPUT_LENGTH } from '../utils/constants';
+import React, { useRef, useEffect } from "react";
+import { MAX_INPUT_LENGTH } from "../utils/constants";
 
 interface InputBoxProps {
   value: string;
@@ -16,14 +16,10 @@ export function InputBox({
 }: InputBoxProps) {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  // Auto-resize textarea based on content
   useEffect(() => {
     if (textareaRef.current) {
-      textareaRef.current.style.height = 'auto';
-      textareaRef.current.style.height = `${Math.min(
-        textareaRef.current.scrollHeight,
-        500
-      )}px`;
+      textareaRef.current.style.height = "auto";
+      textareaRef.current.style.height = `${Math.min(textareaRef.current.scrollHeight, 500)}px`;
     }
   }, [value]);
 
@@ -31,21 +27,34 @@ export function InputBox({
   const isNearLimit = charCount > MAX_INPUT_LENGTH * 0.9;
 
   return (
-    <div className="space-y-nb-md">
-      <div className="flex items-center justify-between">
-        <label htmlFor="input-text" className="text-nb-base nb-bold-text dark:text-nb-dark-text">
+    <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+        <label
+          htmlFor="input-text"
+          style={{
+            fontFamily: "'Space Mono', monospace",
+            fontSize: "0.72rem",
+            fontWeight: 700,
+            textTransform: "uppercase",
+            letterSpacing: "0.06em",
+            color: "#6b7280",
+          }}
+        >
           Your Text
         </label>
         <span
-          className={`text-nb-xs font-mono ${
-            isNearLimit ? 'text-nb-accent font-black' : 'text-nb-grey dark:text-gray-400'
-          }`}
+          style={{
+            fontFamily: "'Space Mono', monospace",
+            fontSize: "0.72rem",
+            fontWeight: 700,
+            color: isNearLimit ? "#ef4444" : "#9ca3af",
+          }}
         >
           {charCount} / {MAX_INPUT_LENGTH}
         </span>
       </div>
 
-      <div className="relative">
+      <div style={{ position: "relative" }}>
         <textarea
           ref={textareaRef}
           id="input-text"
@@ -54,23 +63,38 @@ export function InputBox({
           placeholder="Paste your text here..."
           disabled={disabled}
           maxLength={MAX_INPUT_LENGTH}
-          className={`w-full px-nb-md py-nb-md border-nb-thick border-nb-black dark:border-nb-dark-text
-            bg-nb-white dark:bg-nb-dark-surface text-nb-black dark:text-nb-dark-text
-            font-mono text-nb-base placeholder-nb-grey dark:placeholder-gray-500
-            focus:outline-none focus:ring-2 focus:ring-nb-accent focus:ring-offset-2
-            dark:focus:ring-offset-nb-dark-bg
-            disabled:opacity-50 disabled:cursor-not-allowed resize-none
-            transition-all duration-200 min-h-[180px]`}
+          style={{
+            width: "100%",
+            minHeight: "180px",
+            resize: "none",
+            fontFamily: "'Space Mono', monospace",
+            fontSize: "0.9rem",
+            padding: "0.875rem 1rem",
+            paddingRight: value ? "5.5rem" : "1rem",
+          }}
           aria-label="Input text for rewriting"
         />
         {value && (
           <button
             onClick={onClear}
             disabled={disabled}
-            className="absolute top-nb-md right-nb-md px-nb-sm py-nb-xs
-              bg-nb-black dark:bg-nb-accent text-nb-white dark:text-nb-dark-bg text-nb-xs font-black
-              border-nb-thick border-nb-black dark:border-nb-accent hover:bg-nb-grey dark:hover:bg-nb-dark-text dark:hover:text-nb-accent
-              transition-colors disabled:opacity-50"
+            style={{
+              position: "absolute",
+              top: "0.75rem",
+              right: "0.75rem",
+              fontFamily: "'Space Grotesk', sans-serif",
+              fontSize: "0.72rem",
+              fontWeight: 700,
+              background: "#fff",
+              color: "#0d0d0d",
+              border: "2px solid #0d0d0d",
+              borderRadius: "4px",
+              padding: "0.2rem 0.625rem",
+              cursor: "pointer",
+              transition: "background 0.15s",
+            }}
+            onMouseEnter={(e) => (e.currentTarget.style.background = "#fee2e2")}
+            onMouseLeave={(e) => (e.currentTarget.style.background = "#fff")}
             title="Clear input"
           >
             Clear
@@ -78,8 +102,9 @@ export function InputBox({
         )}
       </div>
 
-      <div className="text-nb-xs text-nb-grey dark:text-gray-400">
-        • Min 10 characters • Max {MAX_INPUT_LENGTH} characters
+      <div style={{ fontSize: "0.78rem", color: "#9ca3af", display: "flex", gap: "1rem" }}>
+        <span>Min 10 characters</span>
+        <span>Max {MAX_INPUT_LENGTH} characters</span>
       </div>
     </div>
   );

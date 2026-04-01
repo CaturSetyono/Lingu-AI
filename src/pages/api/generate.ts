@@ -50,7 +50,15 @@ function validateRequest(body: any): { valid: boolean; error?: string } {
     return { valid: false, error: "Invalid style" };
   }
 
-  const validLanguages = ["id", "en"];
+  const validLanguages = [
+    // Asian
+    "id", "en", "zh", "zh-tw", "ja", "ko", "vi", "th", "ms",
+    // European
+    "es", "fr", "de", "it", "pt", "ru", "nl", "pl", "tr",
+    "uk", "sv", "da", "no", "fi", "cs", "ro", "hu",
+    // Middle East & South Asia
+    "ar", "he", "fa", "hi", "bn",
+  ];
   if (!validLanguages.includes(language)) {
     return { valid: false, error: "Invalid language" };
   }
@@ -81,7 +89,7 @@ async function callAI(
 
   try {
     console.log("Calling OXLO API with model:", OXLO_MODEL);
-    
+
     const client = new OpenAI({
       baseURL: OXLO_BASE_URL,
       apiKey: apiKey,
@@ -113,14 +121,18 @@ async function callAI(
     return { result: result.trim() };
   } catch (error) {
     console.error("OXLO API Error:", error);
-    
+
     if (error instanceof Error) {
       const errorMessage = error.message.toLowerCase();
-      
+
       // Check for specific error types
-      if (errorMessage.includes("401") || errorMessage.includes("unauthorized")) {
+      if (
+        errorMessage.includes("401") ||
+        errorMessage.includes("unauthorized")
+      ) {
         return {
-          error: "Invalid OXLO API key. Please check your OXLO_API_KEY in environment variables.",
+          error:
+            "Invalid OXLO API key. Please check your OXLO_API_KEY in environment variables.",
         };
       }
       if (errorMessage.includes("429") || errorMessage.includes("rate limit")) {
@@ -128,17 +140,25 @@ async function callAI(
           error: "OXLO rate limited. Please try again in a few moments.",
         };
       }
-      if (errorMessage.includes("timeout") || errorMessage.includes("econnrefused")) {
+      if (
+        errorMessage.includes("timeout") ||
+        errorMessage.includes("econnrefused")
+      ) {
         return {
-          error: "Request timeout. OXLO is taking too long to respond. Try again later.",
+          error:
+            "Request timeout. OXLO is taking too long to respond. Try again later.",
         };
       }
-      if (errorMessage.includes("enotfound") || errorMessage.includes("network")) {
+      if (
+        errorMessage.includes("enotfound") ||
+        errorMessage.includes("network")
+      ) {
         return {
-          error: "Network error connecting to OXLO. Please check your internet connection.",
+          error:
+            "Network error connecting to OXLO. Please check your internet connection.",
         };
       }
-      
+
       return { error: `OXLO request failed: ${error.message}` };
     }
     return { error: "Unknown error occurred with OXLO" };
@@ -232,7 +252,8 @@ export const POST: APIRoute = async ({ request }) => {
     );
   } catch (error) {
     console.error("API error:", error);
-    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    const errorMessage =
+      error instanceof Error ? error.message : "Unknown error";
     return new Response(
       JSON.stringify({
         success: false,
