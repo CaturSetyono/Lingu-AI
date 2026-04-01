@@ -4,10 +4,6 @@ import react from "@astrojs/react";
 import tailwind from "@astrojs/tailwind";
 import vercel from "@astrojs/vercel";
 
-// Load environment variables explicitly for API routes
-// This ensures .env is loaded in development mode
-import "dotenv/config";
-
 // https://astro.build/config
 export default defineConfig({
   output: "server",

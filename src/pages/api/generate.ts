@@ -3,9 +3,6 @@
  * Endpoint: POST /api/generate
  */
 
-// Ensure .env is loaded (critical for development mode)
-import "dotenv/config";
-
 import type { APIRoute } from "astro";
 import { OpenAI } from "openai";
 import {

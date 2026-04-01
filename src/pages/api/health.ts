@@ -4,9 +4,6 @@
  * GET /api/health
  */
 
-// Ensure .env is loaded (critical for development mode)
-import "dotenv/config";
-
 import type { APIRoute } from "astro";
 import { OXLO_MODEL } from "../../utils/constants";
 
