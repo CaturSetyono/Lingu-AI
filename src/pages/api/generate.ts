@@ -78,12 +78,15 @@ async function callAI(
   systemPrompt: string,
   userPrompt: string,
 ): Promise<{ result?: string; error?: string }> {
-  const apiKey = process.env.OXLO_API_KEY;
+  const apiKey = process.env.OXLO_API_KEY?.trim();
 
   if (!apiKey) {
+    console.error(
+      "CRITICAL: OXLO_API_KEY environment variable is not set. This is required for function operation.",
+    );
     return {
       error:
-        "OXLO API key not configured. Please add OXLO_API_KEY to environment variables.",
+        "Server configuration error: Missing OXLO API key. Please contact support.",
     };
   }
 
