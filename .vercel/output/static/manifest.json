@@ -1,54 +1,49 @@
 {
   "name": "LinguAI Studio",
   "short_name": "LinguAI",
-  "description": "AI-powered text rewriting PWA - Rewrite and improve your text with AI control",
-  "start_url": "/",
+  "description": "AI-powered text rewriting — choose tone, style, and language to create perfectly tailored text.",
+  "start_url": "/app",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "theme_color": "#ff6b35",
-  "background_color": "#ffffff",
+  "theme_color": "#1d4ed8",
+  "background_color": "#f5f5f0",
   "categories": ["productivity", "utilities"],
-  "screenshots": [
-    {
-      "src": "/android-chrome-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any"
-    },
-    {
-      "src": "/android-chrome-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any"
-    }
-  ],
   "icons": [
     {
-      "src": "/android-chrome-192x192.png",
+      "src": "/icon-192x192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
-      "src": "/android-chrome-512x512.png",
+      "src": "/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icon-512x512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
-      "src": "/favicon.ico",
-      "sizes": "32x32",
-      "type": "image/x-icon"
+      "src": "/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ],
   "shortcuts": [
     {
       "name": "Rewrite Text",
       "short_name": "Rewrite",
-      "description": "Quickly rewrite any text",
-      "url": "/?mode=rewrite",
+      "description": "Open the AI Text Rewriter",
+      "url": "/app",
       "icons": [
         {
-          "src": "/android-chrome-192x192.png",
+          "src": "/icon-192x192.png",
           "sizes": "192x192",
           "type": "image/png"
         }
