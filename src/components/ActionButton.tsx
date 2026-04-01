@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 interface ActionButtonProps {
   onClick: () => void;
@@ -11,36 +11,82 @@ export function ActionButton({
   onClick,
   loading = false,
   disabled = false,
-  label = 'Generate',
+  label = "Generate",
 }: ActionButtonProps) {
+  const isDisabled = disabled || loading;
+
   return (
     <button
       onClick={onClick}
-      disabled={disabled || loading}
-      className={`
-        fixed bottom-nb-lg right-nb-lg md:relative md:bottom-auto md:right-auto
-        px-nb-lg py-nb-md border-nb-thick font-black text-nb-base
-        transition-all duration-200 active:scale-95
-        ${
-          disabled || loading
-            ? 'opacity-50 cursor-not-allowed'
-            : 'cursor-pointer hover:scale-105'
+      disabled={isDisabled}
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        justifyContent: "center",
+        gap: "0.5rem",
+        fontFamily: "'Space Grotesk', sans-serif",
+        fontSize: "1rem",
+        fontWeight: 700,
+        padding: "0.875rem 2.5rem",
+        borderRadius: "6px",
+        border: "2px solid #0d0d0d",
+        background: isDisabled ? "#9ca3af" : "#1d4ed8",
+        color: "#fff",
+        boxShadow: isDisabled ? "none" : "4px 4px 0px #0d0d0d",
+        cursor: isDisabled ? "not-allowed" : "pointer",
+        opacity: isDisabled ? 0.6 : 1,
+        transition: "transform 0.1s, box-shadow 0.1s",
+        /* Mobile: fixed bottom */
+        position: undefined,
+      }}
+      onMouseEnter={(e) => {
+        if (!isDisabled) {
+          e.currentTarget.style.transform = "translate(-2px, -2px)";
+          e.currentTarget.style.boxShadow = "6px 6px 0px #0d0d0d";
         }
-        ${
-          disabled || loading
-            ? 'bg-nb-grey dark:bg-gray-600 text-nb-white border-nb-grey dark:border-gray-600'
-            : 'bg-nb-accent dark:bg-nb-accent text-nb-white dark:text-nb-dark-bg border-nb-accent dark:border-nb-accent hover:bg-nb-black dark:hover:bg-nb-dark-text hover:border-nb-black dark:hover:border-nb-dark-text dark:hover:text-nb-accent'
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.transform = "none";
+        e.currentTarget.style.boxShadow = isDisabled ? "none" : "4px 4px 0px #0d0d0d";
+      }}
+      onMouseDown={(e) => {
+        if (!isDisabled) {
+          e.currentTarget.style.transform = "translate(2px, 2px)";
+          e.currentTarget.style.boxShadow = "2px 2px 0px #0d0d0d";
         }
-        flex items-center justify-center gap-nb-sm
-        min-w-[150px] shadow-lg md:shadow-none
-      `}
-      title={loading ? 'Generating...' : label}
+      }}
+      onMouseUp={(e) => {
+        if (!isDisabled) {
+          e.currentTarget.style.transform = "translate(-2px, -2px)";
+          e.currentTarget.style.boxShadow = "6px 6px 0px #0d0d0d";
+        }
+      }}
+      title={loading ? "Generating..." : label}
       aria-busy={loading}
     >
-      {loading && (
-        <span className="inline-block w-4 h-4 border-nb-thick border-nb-white dark:border-nb-dark-bg border-t-nb-accent dark:border-t-nb-dark-text rounded-full animate-spin" />
+      {loading ? (
+        <>
+          <span
+            style={{
+              display: "inline-block",
+              width: "18px",
+              height: "18px",
+              border: "2.5px solid rgba(255,255,255,0.4)",
+              borderTopColor: "#fff",
+              borderRadius: "50%",
+            }}
+            className="animate-spin"
+          />
+          Generating...
+        </>
+      ) : (
+        <>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+          </svg>
+          {label}
+        </>
       )}
-      <span>{loading ? 'Generating...' : label}</span>
     </button>
   );
 }
