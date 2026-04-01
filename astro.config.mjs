@@ -8,5 +8,13 @@ import vercel from "@astrojs/vercel";
 export default defineConfig({
   output: "server",
   integrations: [react(), tailwind()],
-  adapter: vercel(),
+  adapter: vercel({
+    webAnalytics: { enabled: true },
+    imageService: true,
+  }),
+  vite: {
+    ssr: {
+      external: ["@astrojs/tailwind"],
+    },
+  },
 });
