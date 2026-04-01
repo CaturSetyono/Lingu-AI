@@ -46,7 +46,7 @@ LinguAI Studio is built on a **Neo-Brutalism** design system:
 ```bash
 # Clone the repository
 git clone https://github.com/CaturSetyono/LinguAI-.git
-cd Ai-teksgen
+cd Lingu-AI
 
 # Install dependencies
 npm install
