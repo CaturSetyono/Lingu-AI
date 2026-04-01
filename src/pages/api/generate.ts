@@ -1,3 +1,4 @@
+/// <reference types="node" />
 /**
  * API Route for text generation using OXLO
  * Endpoint: POST /api/generate

@@ -1,3 +1,4 @@
+/// <reference types="node" />
 /**
  * Health Check Endpoint - Ultra Simple
  * Diagnoses configuration without complex imports
