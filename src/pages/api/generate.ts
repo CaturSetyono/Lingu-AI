@@ -108,35 +108,30 @@ async function callAI(
   const apiKey = process.env.OXLO_API_KEY?.trim();
 
   if (!apiKey) {
-    console.error(
-      "CRITICAL: OXLO_API_KEY environment variable is not set. This is required for function operation.",
-    );
-    return {
-      error:
-        "Server configuration error: Missing OXLO API key. Please contact support.",
-    };
+    const errorMsg =
+      "Server configuration error: Missing OXLO API key. Please contact support.";
+    console.error("CRITICAL:", errorMsg);
+    console.error("Environment variables available:", Object.keys(process.env));
+    return { error: errorMsg };
   }
 
   try {
-    console.log("Calling OXLO API with model:", OXLO_MODEL);
+    console.log("[OXLO] Initializing OpenAI client for model:", OXLO_MODEL);
+    console.log("[OXLO] Base URL:", OXLO_BASE_URL);
 
     const client = new OpenAI({
       baseURL: OXLO_BASE_URL,
       apiKey: apiKey,
-      timeout: 60000, // 60 seconds for OXLO (deepseek-r1 can be slower)
+      timeout: 60000,
     });
+
+    console.log("[OXLO] Sending request to API...");
 
     const completion = await client.chat.completions.create({
       model: OXLO_MODEL,
       messages: [
-        {
-          role: "system",
-          content: systemPrompt,
-        },
-        {
-          role: "user",
-          content: userPrompt,
-        },
+        { role: "system", content: systemPrompt },
+        { role: "user", content: userPrompt },
       ],
       temperature: 0.7,
       max_tokens: 2000,
@@ -145,53 +140,54 @@ async function callAI(
     const result = completion.choices?.[0]?.message?.content;
 
     if (!result) {
+      console.warn("[OXLO] Empty response from API");
       return { error: "No response from OXLO" };
     }
 
+    console.log("[OXLO] Success! Response length:", result.length);
     return { result: result.trim() };
-  } catch (error) {
-    console.error("OXLO API Error:", error);
+  } catch (error: unknown) {
+    const errorObj = error instanceof Error ? error : new Error(String(error));
+    const errorMsg = errorObj.message || "Unknown error";
+    const stackTrace = errorObj.stack || "";
 
-    if (error instanceof Error) {
-      const errorMessage = error.message.toLowerCase();
+    console.error("[OXLO] API Error Details:");
+    console.error("  Message:", errorMsg);
+    console.error("  Stack:", stackTrace);
 
-      // Check for specific error types
-      if (
-        errorMessage.includes("401") ||
-        errorMessage.includes("unauthorized")
-      ) {
-        return {
-          error:
-            "Invalid OXLO API key. Please check your OXLO_API_KEY in environment variables.",
-        };
-      }
-      if (errorMessage.includes("429") || errorMessage.includes("rate limit")) {
-        return {
-          error: "OXLO rate limited. Please try again in a few moments.",
-        };
-      }
-      if (
-        errorMessage.includes("timeout") ||
-        errorMessage.includes("econnrefused")
-      ) {
-        return {
-          error:
-            "Request timeout. OXLO is taking too long to respond. Try again later.",
-        };
-      }
-      if (
-        errorMessage.includes("enotfound") ||
-        errorMessage.includes("network")
-      ) {
-        return {
-          error:
-            "Network error connecting to OXLO. Please check your internet connection.",
-        };
-      }
+    const lowerMsg = errorMsg.toLowerCase();
 
-      return { error: `OXLO request failed: ${error.message}` };
+    if (
+      lowerMsg.includes("401") ||
+      lowerMsg.includes("unauthorized") ||
+      lowerMsg.includes("invalid")
+    ) {
+      return {
+        error:
+          "Authentication failed: Invalid OXLO API key. Please verify the key.",
+      };
     }
-    return { error: "Unknown error occurred with OXLO" };
+    if (lowerMsg.includes("429") || lowerMsg.includes("rate limit")) {
+      return {
+        error: "Rate limited. Please try again in a few moments.",
+      };
+    }
+    if (
+      lowerMsg.includes("timeout") ||
+      lowerMsg.includes("econnrefused") ||
+      lowerMsg.includes("socket")
+    ) {
+      return {
+        error: "Request timeout. OXLO is taking too long. Try again later.",
+      };
+    }
+    if (lowerMsg.includes("enotfound") || lowerMsg.includes("network")) {
+      return {
+        error: "Network error. Please check internet connection.",
+      };
+    }
+
+    return { error: `API Error: ${errorMsg}` };
   }
 }
 
@@ -207,12 +203,14 @@ export const POST: APIRoute = async ({ request }) => {
     });
   }
 
+  console.log("[API] Received POST request to /api/generate");
+
   try {
     let body;
     try {
       body = await request.json();
     } catch (parseError) {
-      console.error("JSON parse error:", parseError);
+      console.error("[API] JSON parse error:", parseError);
       return new Response(
         JSON.stringify({
           success: false,
@@ -246,6 +244,14 @@ export const POST: APIRoute = async ({ request }) => {
       customPrompt,
     }: GenerateRequest = body;
 
+    console.log("[API] Request validated:", {
+      textLength: text.length,
+      tone,
+      style,
+      language,
+      length,
+    });
+
     // Build prompts
     const systemPrompt = buildSystemPrompt();
     const userPrompt = buildUserPrompt({
@@ -263,11 +269,14 @@ export const POST: APIRoute = async ({ request }) => {
     const { result, error } = apiResult;
 
     if (error) {
+      console.error("[API] API call returned error:", error);
       return new Response(JSON.stringify({ success: false, error }), {
         status: 500,
         headers: { "Content-Type": "application/json" },
       });
     }
+
+    console.log("[API] Successfully generated response");
 
     return new Response(
       JSON.stringify({
@@ -281,9 +290,16 @@ export const POST: APIRoute = async ({ request }) => {
       },
     );
   } catch (error) {
-    console.error("API error:", error);
-    const errorMessage =
-      error instanceof Error ? error.message : "Unknown error";
+    const errorObj =
+      error instanceof Error ? error : new Error(String(error));
+    const errorMessage = errorObj.message || "Unknown error";
+
+    console.error("[API] Unhandled error:", {
+      message: errorMessage,
+      stack: errorObj.stack,
+      type: errorObj.constructor.name,
+    });
+
     return new Response(
       JSON.stringify({
         success: false,
