@@ -13,8 +13,8 @@ import {
 import type { GenerateRequest, APIResponse } from "../../utils/types";
 import { OXLO_MODEL, API_TIMEOUT } from "../../utils/constants";
 
-// Load environment variables in development
-import "dotenv/config";
+// Vercel auto-injects .env, no need for dotenv in production
+// (Astro handles it in dev mode automatically)
 
 // Mark this page as NOT pre-renderable (requires server rendering)
 export const prerender = false;
