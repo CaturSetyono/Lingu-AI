@@ -2,8 +2,5 @@
   "buildCommand": "npm run build",
   "devCommand": "npm run dev",
   "installCommand": "npm install",
-  "framework": "astro",
-  "env": {
-    "OXLO_API_KEY": "@oxlo-api-key"
-  }
+  "framework": "astro"
 }
