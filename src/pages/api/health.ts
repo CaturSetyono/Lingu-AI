@@ -11,7 +11,7 @@ export const prerender = false;
 export const GET: APIRoute = async () => {
   try {
     const apiKey = process.env.OXLO_API_KEY;
-    
+
     const response = {
       timestamp: new Date().toISOString(),
       environment: {
