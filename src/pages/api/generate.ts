@@ -52,12 +52,39 @@ function validateRequest(body: any): { valid: boolean; error?: string } {
 
   const validLanguages = [
     // Asian
-    "id", "en", "zh", "zh-tw", "ja", "ko", "vi", "th", "ms",
+    "id",
+    "en",
+    "zh",
+    "zh-tw",
+    "ja",
+    "ko",
+    "vi",
+    "th",
+    "ms",
     // European
-    "es", "fr", "de", "it", "pt", "ru", "nl", "pl", "tr",
-    "uk", "sv", "da", "no", "fi", "cs", "ro", "hu",
+    "es",
+    "fr",
+    "de",
+    "it",
+    "pt",
+    "ru",
+    "nl",
+    "pl",
+    "tr",
+    "uk",
+    "sv",
+    "da",
+    "no",
+    "fi",
+    "cs",
+    "ro",
+    "hu",
     // Middle East & South Asia
-    "ar", "he", "fa", "hi", "bn",
+    "ar",
+    "he",
+    "fa",
+    "hi",
+    "bn",
   ];
   if (!validLanguages.includes(language)) {
     return { valid: false, error: "Invalid language" };
