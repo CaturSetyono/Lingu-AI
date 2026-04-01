@@ -7,14 +7,14 @@ import vercel from "@astrojs/vercel";
 // https://astro.build/config
 export default defineConfig({
   output: "server",
-  integrations: [react(), tailwind()],
+  integrations: [tailwind(), react()],
   adapter: vercel({
     webAnalytics: { enabled: true },
     imageService: true,
   }),
   vite: {
     ssr: {
-      external: ["@astrojs/tailwind"],
+      noExternal: ["@astrojs/tailwind"],
     },
   },
 });
