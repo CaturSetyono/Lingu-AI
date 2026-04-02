@@ -1168,3 +1168,71 @@ textarea {
 ::-webkit-scrollbar { width: 5px; }
 ::-webkit-scrollbar-track { background: var(--nb-off); }
 ::-webkit-scrollbar-thumb { background: var(--nb-black); border-radius: 3px; }
+
+/* ─────────────────────────────────────────
+   MARKDOWN OUTPUT (React-Markdown)
+───────────────────────────────────────── */
+.output-markdown {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: var(--nb-black);
+  width: 100%;
+}
+.output-markdown > *:last-child { margin-bottom: 0; }
+.output-markdown p { margin-bottom: 1rem; }
+.output-markdown h1, 
+.output-markdown h2, 
+.output-markdown h3, 
+.output-markdown h4 {
+  font-weight: 700;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.3;
+}
+.output-markdown h1 { font-size: 1.5rem; }
+.output-markdown h2 { font-size: 1.25rem; }
+.output-markdown h3 { font-size: 1.125rem; }
+.output-markdown strong { font-weight: 700; }
+.output-markdown em { font-style: italic; }
+.output-markdown ul { list-style-type: disc; margin-left: 1.5rem; margin-bottom: 1rem; }
+.output-markdown ol { list-style-type: decimal; margin-left: 1.5rem; margin-bottom: 1rem; }
+.output-markdown li { margin-bottom: 0.35rem; }
+.output-markdown blockquote {
+  border-left: 4px solid var(--nb-blue);
+  padding-left: 1rem;
+  margin-left: 0;
+  margin-bottom: 1rem;
+  color: var(--nb-muted);
+  font-style: italic;
+}
+.output-markdown a {
+  color: var(--nb-blue);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+}
+.output-markdown code {
+  font-family: 'Space Mono', monospace;
+  background: var(--nb-off);
+  border: 1px solid var(--nb-black);
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+  font-size: 0.85em;
+  color: var(--nb-blue);
+}
+.output-markdown pre {
+  background: var(--nb-black);
+  color: var(--nb-white);
+  padding: 1rem;
+  border-radius: var(--nb-radius);
+  overflow-x: auto;
+  margin-bottom: 1rem;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.85rem;
+}
+.output-markdown pre code {
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: inherit;
+}

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import ReactMarkdown from "react-markdown";
 
 interface OutputBoxProps {
   result: string | null;
@@ -137,16 +138,9 @@ export function OutputBox({
         )}
 
         {result && !loading && !error && (
-          <p style={{
-            fontFamily: "'Space Mono', monospace",
-            fontSize: "0.9rem",
-            lineHeight: 1.75,
-            color: "#0d0d0d",
-            whiteSpace: "pre-wrap",
-            wordBreak: "break-word",
-          }}>
-            {result}
-          </p>
+          <div className="output-markdown" style={{ width: '100%' }}>
+            <ReactMarkdown>{result}</ReactMarkdown>
+          </div>
         )}
 
         {!loading && !error && !result && (
