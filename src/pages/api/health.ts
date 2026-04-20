@@ -11,21 +11,21 @@ export const prerender = false;
 
 export const GET: APIRoute = async () => {
   try {
-    const apiKey = process.env.OXLO_API_KEY;
+    const apiKey = import.meta.env.OPENROUTER_API_KEY || process.env.OPENROUTER_API_KEY;
 
     const response = {
       timestamp: new Date().toISOString(),
       environment: {
-        hasOxloKey: !!apiKey,
+        hasOpenRouterKey: !!apiKey,
         keyLength: apiKey?.length || 0,
         nodeEnv: process.env.NODE_ENV || "not set",
       },
       deployment: {
-        model: "deepseek-r1-8b",
-        baseUrl: "https://api.oxlo.ai/v1",
+        model: "nvidia/nemotron-3-super-120b-a12b:free",
+        baseUrl: "https://openrouter.ai/api/v1",
       },
       status: apiKey ? "healthy" : "unhealthy",
-      issues: apiKey ? [] : ["OXLO_API_KEY not set in environment"],
+      issues: apiKey ? [] : ["OPENROUTER_API_KEY not set in environment"],
     };
 
     return new Response(JSON.stringify(response, null, 2), {
