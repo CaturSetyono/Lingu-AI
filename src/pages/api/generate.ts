@@ -1,9 +1,4 @@
 /// <reference types="node" />
-/**
- * API Route for text generation using OXLO
- * Endpoint: POST /api/generate
- */
-
 import type { APIRoute } from "astro";
 import { OpenAI } from "openai";
 import {
@@ -12,15 +7,11 @@ import {
   validateInput,
 } from "../../utils/prompts";
 import type { GenerateRequest, APIResponse } from "../../utils/types";
-import { OXLO_MODEL, API_TIMEOUT } from "../../utils/constants";
+import { OPENROUTER_MODEL, API_TIMEOUT } from "../../utils/constants";
 
-// Vercel auto-injects .env, no need for dotenv in production
-// (Astro handles it in dev mode automatically)
-
-// Mark this page as NOT pre-renderable (requires server rendering)
 export const prerender = false;
 
-const OXLO_BASE_URL = "https://api.oxlo.ai/v1";
+const OPENROUTER_BASE_URL = "https://openrouter.ai/api/v1";
 
 /**
  * Validate the request payload
@@ -99,37 +90,30 @@ function validateRequest(body: any): { valid: boolean; error?: string } {
   return { valid: true };
 }
 
-/**
- * Call OXLO API using OpenAI SDK
- */
 async function callAI(
   systemPrompt: string,
   userPrompt: string,
 ): Promise<{ result?: string; error?: string }> {
-  const apiKey = process.env.OXLO_API_KEY?.trim();
+  const apiKey = (import.meta.env.OPENROUTER_API_KEY || process.env.OPENROUTER_API_KEY)?.trim();
 
   if (!apiKey) {
     const errorMsg =
-      "Server configuration error: Missing OXLO API key. Please contact support.";
+      "Server configuration error: Missing OpenRouter API key. Please contact support.";
     console.error("CRITICAL:", errorMsg);
-    console.error("Environment variables available:", Object.keys(process.env));
     return { error: errorMsg };
   }
 
   try {
-    console.log("[OXLO] Initializing OpenAI client for model:", OXLO_MODEL);
-    console.log("[OXLO] Base URL:", OXLO_BASE_URL);
+    console.log("[OpenRouter] Sending request, model:", OPENROUTER_MODEL);
 
     const client = new OpenAI({
-      baseURL: OXLO_BASE_URL,
+      baseURL: OPENROUTER_BASE_URL,
       apiKey: apiKey,
-      timeout: 60000,
+      timeout: API_TIMEOUT,
     });
 
-    console.log("[OXLO] Sending request to API...");
-
     const completion = await client.chat.completions.create({
-      model: OXLO_MODEL,
+      model: OPENROUTER_MODEL,
       messages: [
         { role: "system", content: systemPrompt },
         { role: "user", content: userPrompt },
@@ -138,23 +122,23 @@ async function callAI(
       max_tokens: 2000,
     });
 
-    const result = completion.choices?.[0]?.message?.content;
+    const raw = completion.choices?.[0]?.message?.content;
 
-    if (!result) {
-      console.warn("[OXLO] Empty response from API");
-      return { error: "No response from OXLO" };
+    if (!raw) {
+      console.warn("[OpenRouter] Empty response from API");
+      return { error: "No response from OpenRouter" };
     }
 
-    console.log("[OXLO] Success! Response length:", result.length);
-    return { result: result.trim() };
+    // Strip <think>...</think> reasoning blocks from models like nemotron
+    const result = raw.replace(/<think>[\s\S]*?<\/think>/gi, "").trim();
+
+    console.log("[OpenRouter] Success! Response length:", result.length);
+    return { result };
   } catch (error: unknown) {
     const errorObj = error instanceof Error ? error : new Error(String(error));
     const errorMsg = errorObj.message || "Unknown error";
-    const stackTrace = errorObj.stack || "";
 
-    console.error("[OXLO] API Error Details:");
-    console.error("  Message:", errorMsg);
-    console.error("  Stack:", stackTrace);
+    console.error("[OpenRouter] API Error:", errorMsg);
 
     const lowerMsg = errorMsg.toLowerCase();
 
@@ -165,27 +149,21 @@ async function callAI(
     ) {
       return {
         error:
-          "Authentication failed: Invalid OXLO API key. Please verify the key.",
+          "Authentication failed: Invalid OpenRouter API key. Please verify the key.",
       };
     }
     if (lowerMsg.includes("429") || lowerMsg.includes("rate limit")) {
-      return {
-        error: "Rate limited. Please try again in a few moments.",
-      };
+      return { error: "Rate limited. Please try again in a few moments." };
     }
     if (
       lowerMsg.includes("timeout") ||
       lowerMsg.includes("econnrefused") ||
       lowerMsg.includes("socket")
     ) {
-      return {
-        error: "Request timeout. OXLO is taking too long. Try again later.",
-      };
+      return { error: "Request timeout. Please try again later." };
     }
     if (lowerMsg.includes("enotfound") || lowerMsg.includes("network")) {
-      return {
-        error: "Network error. Please check internet connection.",
-      };
+      return { error: "Network error. Please check internet connection." };
     }
 
     return { error: `API Error: ${errorMsg}` };
@@ -264,7 +242,6 @@ export const POST: APIRoute = async ({ request }) => {
       targetText: text,
     });
 
-    // Call OXLO AI
     const apiResult = await callAI(systemPrompt, userPrompt);
 
     const { result, error } = apiResult;
