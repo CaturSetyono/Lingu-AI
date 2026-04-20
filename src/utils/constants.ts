@@ -78,5 +78,5 @@ export const MAX_INPUT_LENGTH = 5000;
 export const MIN_INPUT_LENGTH = 10;
 
 export const STORAGE_KEY = "linguai-settings";
-export const OXLO_MODEL = "deepseek-r1-8b";
-export const API_TIMEOUT = 60000; // 60 seconds for OXLO processing
+export const OPENROUTER_MODEL = "nvidia/nemotron-3-super-120b-a12b:free";
+export const API_TIMEOUT = 60000;
